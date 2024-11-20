@@ -14,6 +14,7 @@ public class Server {
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_HOST = "localhost";
     private static final int BUFFER_SIZE = 1024;
+    private static final ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
     public Server() {
 
     }
@@ -25,7 +26,6 @@ public class Server {
             serverSocketChannel.configureBlocking(false);
             Selector selector = Selector.open();
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-            ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
 
             while (true) {
                 int readyChannels = selector.select();
@@ -43,7 +43,7 @@ public class Server {
                     if (key.isReadable()) {
                         try {
                             SocketChannel sc = (SocketChannel) key.channel();
-                            readable(sc, buffer);
+                            readable(sc);
                         } catch (IOException e) {
                             continue;
                         }
@@ -58,20 +58,20 @@ public class Server {
         }
     }
 
-    private void readable(SocketChannel sc, ByteBuffer buffer) throws IOException {
-        String line = clientInput(buffer, sc);
+    private void readable(SocketChannel sc) throws IOException {
+        String line = clientInput(sc);
         assert line != null;
-        clientOutput(buffer, sc, line);
+        clientOutput(sc, line);
     }
 
-    private void clientOutput(ByteBuffer buffer, SocketChannel sc, String line) throws IOException {
+    private void clientOutput(SocketChannel sc, String line) throws IOException {
         buffer.clear();
         buffer.put(line.getBytes());
         buffer.flip();
         sc.write(buffer);
     }
 
-    private String clientInput(ByteBuffer buffer, SocketChannel sc) throws IOException {
+    private String clientInput(SocketChannel sc) throws IOException {
         buffer.clear();
         int r = sc.read(buffer);
         if (r < 0) {
