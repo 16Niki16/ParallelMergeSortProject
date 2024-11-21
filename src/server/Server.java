@@ -1,5 +1,7 @@
 package server;
 
+import constants.Numbers;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -74,7 +76,7 @@ public class Server {
     private String clientInput(SocketChannel sc) throws IOException {
         buffer.clear();
         int r = sc.read(buffer);
-        if (r < 0) {
+        if (r < Numbers.ZERO) {
             System.out.println("Client has closed the connection!");
             sc.close();
             return null;
