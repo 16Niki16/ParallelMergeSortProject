@@ -1,6 +1,8 @@
 package server;
 
 import constants.Numbers;
+import sort.ParallelMergeSort;
+import transform.MessageTransform;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -10,13 +12,16 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
+
 public class Server {
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_HOST = "localhost";
     private static final int BUFFER_SIZE = 1024;
     private static final ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
+
     public Server() {
 
     }
@@ -63,7 +68,9 @@ public class Server {
     private void readable(SocketChannel sc) throws IOException {
         String line = clientInput(sc);
         assert line != null;
-        clientOutput(sc, line);
+        int[] unsortedArray = MessageTransform.transform(line);
+        ParallelMergeSort.parallelMergeSort(unsortedArray);
+        clientOutput(sc, Arrays.toString(unsortedArray));
     }
 
     private void clientOutput(SocketChannel sc, String line) throws IOException {
@@ -90,9 +97,10 @@ public class Server {
     }
 
     private void acceptable(SelectionKey key, Selector selector) throws IOException {
-        ServerSocketChannel sockChannel = (ServerSocketChannel) key.channel();
-        SocketChannel accept = sockChannel.accept();
-        accept.configureBlocking(false);
-        accept.register(selector, SelectionKey.OP_READ);
+        try (ServerSocketChannel sockChannel = (ServerSocketChannel) key.channel()) {
+            SocketChannel accept = sockChannel.accept();
+            accept.configureBlocking(false);
+            accept.register(selector, SelectionKey.OP_READ);
+        }
     }
 }

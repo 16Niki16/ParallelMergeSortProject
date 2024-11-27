@@ -23,6 +23,7 @@ public class Client {
              Scanner scanner = new Scanner(System.in)) {
             socketChannel.connect(new InetSocketAddress(SERVER_HOST, SERVER_PORT));
             while (true) {
+                System.out.println("Enter array with numbers divided by ',' ");
                 message = scanner.nextLine();
                 if (disconnect(message)) {
                     break;
