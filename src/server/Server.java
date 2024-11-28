@@ -1,7 +1,7 @@
 package server;
 
 import constants.Numbers;
-import sort.ParallelMergeSort;
+import sort.parallel.ParallelMergeSort;
 import transform.MessageTransform;
 
 import java.io.IOException;

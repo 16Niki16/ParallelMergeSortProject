@@ -1,6 +1,7 @@
-package sort;
+package sort.parallel;
 
 import constants.Numbers;
+import sort.Helpers;
 
 import java.util.Arrays;
 import java.util.concurrent.RecursiveAction;
