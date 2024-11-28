@@ -3,7 +3,7 @@ package sort.sequent;
 import constants.Numbers;
 import sort.Helpers;
 
-public class MergeSort {
+public class MergeSortSeq {
     public static void mergeSeq(int[] arr, int l, int r) {
         if (l < r) {
             int mid = l + (r - l) / Numbers.TWO;
