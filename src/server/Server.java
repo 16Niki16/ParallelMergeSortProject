@@ -68,9 +68,7 @@ public class Server {
     private void readable(SocketChannel sc) throws IOException {
         String line = clientInput(sc);
         assert line != null;
-        int[] unsortedArray = MessageTransform.transform(line);
-        ParallelMergeSort.parallelMergeSort(unsortedArray);
-        clientOutput(sc, Arrays.toString(unsortedArray));
+        clientOutput(sc, OutputManager.outputManager(line));
     }
 
     private void clientOutput(SocketChannel sc, String line) throws IOException {
