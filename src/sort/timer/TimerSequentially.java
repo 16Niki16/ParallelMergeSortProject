@@ -1,8 +1,6 @@
 package sort.timer;
 
 import constants.Numbers;
-import sort.parallel.MergeSort;
-import sort.parallel.ParallelMergeSort;
 import sort.sequent.MergeSortSeq;
 
 public class TimerSequentially {
