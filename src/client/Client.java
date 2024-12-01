@@ -10,9 +10,10 @@ import java.util.Scanner;
 public class Client {
     public static final int SERVER_PORT = 7777;
     private static final String SERVER_HOST = "localhost";
-    private static final int BUFFER_SIZE = 2134016;
+    private static final int BUFFER_SIZE = 524288;
     private static final ByteBuffer buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
     private String message;
+
 
     public Client() {
         this.message = "";
@@ -53,10 +54,8 @@ public class Client {
         buffer.flip();
         sc.write(buffer);
     }
-
     private boolean disconnect(String command) {
         return command.equals("disconnect");
     }
-
 }
 

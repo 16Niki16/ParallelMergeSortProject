@@ -6,7 +6,7 @@ public class MessageTransform {
 
     public static int[] transform(String arrayString) {
         return Arrays.stream(arrayString.split(","))
-                .map(String::trim)
+                .map(String::strip)
                 .filter(s -> !s.isEmpty())
                 .mapToInt(Integer::parseInt)
                 .toArray();

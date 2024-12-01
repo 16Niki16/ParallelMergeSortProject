@@ -16,8 +16,7 @@ import java.util.Set;
 public class Server {
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_HOST = "localhost";
-    private static final int BUFFER_SIZE = 2134016;
-    private static final ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
+    private static final int BUFFER_SIZE = 1048576;
 
     public Server() {
 
@@ -28,8 +27,11 @@ public class Server {
 
             serverSocketChannel.bind(new InetSocketAddress(SERVER_HOST, SERVER_PORT));
             serverSocketChannel.configureBlocking(false);
+
             Selector selector = Selector.open();
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+
+            ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
 
             while (true) {
                 int readyChannels = selector.select();
@@ -47,7 +49,7 @@ public class Server {
                     if (key.isReadable()) {
                         try {
                             SocketChannel sc = (SocketChannel) key.channel();
-                            readable(sc);
+                            readable(buffer, sc);
                         } catch (IOException e) {
                             continue;
                         }
@@ -62,20 +64,20 @@ public class Server {
         }
     }
 
-    private void readable(SocketChannel sc) throws IOException {
-        String line = clientInput(sc);
+    private void readable(ByteBuffer buffer, SocketChannel sc) throws IOException {
+        String line = clientInput(buffer, sc);
         assert line != null;
-        clientOutput(sc, OutputManager.outputManager(line));
+        clientOutput(buffer, sc, OutputManager.outputManager(line));
     }
 
-    private void clientOutput(SocketChannel sc, String line) throws IOException {
+    private void clientOutput(ByteBuffer buffer, SocketChannel sc, String line) throws IOException {
         buffer.clear();
         buffer.put(line.getBytes());
         buffer.flip();
         sc.write(buffer);
     }
 
-    private String clientInput(SocketChannel sc) throws IOException {
+    private String clientInput(ByteBuffer buffer, SocketChannel sc) throws IOException {
         buffer.clear();
         int r = sc.read(buffer);
         if (r < Numbers.ZERO) {
@@ -92,10 +94,9 @@ public class Server {
     }
 
     private void acceptable(SelectionKey key, Selector selector) throws IOException {
-        try (ServerSocketChannel sockChannel = (ServerSocketChannel) key.channel()) {
-            SocketChannel accept = sockChannel.accept();
-            accept.configureBlocking(false);
-            accept.register(selector, SelectionKey.OP_READ);
-        }
+        ServerSocketChannel sockChannel = (ServerSocketChannel) key.channel();
+        SocketChannel accept = sockChannel.accept();
+        accept.configureBlocking(false);
+        accept.register(selector, SelectionKey.OP_READ);
     }
 }
