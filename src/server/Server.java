@@ -1,8 +1,6 @@
 package server;
 
 import constants.Numbers;
-import sort.parallel.ParallelMergeSort;
-import transform.MessageTransform;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -12,14 +10,13 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 
 public class Server {
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_HOST = "localhost";
-    private static final int BUFFER_SIZE = 1024;
+    private static final int BUFFER_SIZE = 2134016;
     private static final ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
 
     public Server() {

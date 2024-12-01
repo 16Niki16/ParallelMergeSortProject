@@ -1,7 +1,6 @@
 package sort.parallel;
 
 import constants.Numbers;
-import sort.parallel.MergeSort;
 
 import java.util.concurrent.ForkJoinPool;
 

@@ -3,10 +3,10 @@ package sort.timer;
 import sort.parallel.ParallelMergeSort;
 
 public class TimerParallel {
-    public static long TimerParallelSorting(int[] arr) {
+    public static double TimerParallelSorting(int[] arr) {
         long startTime = System.nanoTime();
         ParallelMergeSort.parallelMergeSort(arr);
         long endTime = System.nanoTime();
-        return endTime - startTime;
+        return (endTime - startTime) / 1_000_000.0;
     }
 }
