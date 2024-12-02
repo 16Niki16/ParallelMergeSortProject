@@ -16,7 +16,7 @@ import java.util.Set;
 public class Server {
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_HOST = "localhost";
-    private static final int BUFFER_SIZE = 131072;
+    private static final int BUFFER_SIZE = Numbers.ONE_MILLION;
 
     public Server() {
 
@@ -70,28 +70,59 @@ public class Server {
         clientOutput(buffer, sc, OutputManager.outputManager(line));
     }
 
-    private void clientOutput(ByteBuffer buffer, SocketChannel sc, String line) throws IOException {
+    private void clientOutput(ByteBuffer buffer, SocketChannel sc, String message) throws IOException {
+        int chunkSize = 100_000;
+        int totalLength = message.length();
+        int start = 0;
+        //System.out.println(message);
+        while (start < totalLength) {
+            int end = Math.min(start + chunkSize, totalLength);
+            String chunk = message.substring(start, end);
+            System.out.println(chunk);
+            chunkSending(buffer, sc, chunk);
+
+            start = end;
+        }
+        chunkSending(buffer, sc, "END");
+        System.out.println("stiga");
+    }
+
+    private void chunkSending(ByteBuffer buffer, SocketChannel sc, String chunk) throws IOException {
         buffer.clear();
-        buffer.put(line.getBytes());
+        buffer.put(chunk.getBytes());
         buffer.flip();
         sc.write(buffer);
     }
 
     private String clientInput(ByteBuffer buffer, SocketChannel sc) throws IOException {
-        buffer.clear();
-        int r = sc.read(buffer);
-        if (r < Numbers.ZERO) {
-            System.out.println("Client has closed the connection!");
-            sc.close();
-            return null;
+        StringBuilder messageBuilder = new StringBuilder();
+        while (true) {
+            buffer.clear();
+            int bytesRead = sc.read(buffer);
+            if (bytesRead < 0) {
+                System.out.println("Client has closed the connection!");
+                sc.close();
+                return null;
+            }
+
+            buffer.flip();
+            byte[] byteArray = new byte[buffer.remaining()];
+            buffer.get(byteArray);
+
+            String chunk = new String(byteArray, StandardCharsets.UTF_8).strip();
+            System.out.println("chunk: " + chunk);
+            if ("END".equals(chunk)) {
+                break;
+            } else if ("END".equals(chunk.substring(chunk.length() - 3))) {
+                messageBuilder.append(chunk, 0, chunk.length() - 3);
+                break;
+            }
+
+            messageBuilder.append(chunk);
         }
-        buffer.flip();
-
-        byte[] byteArray = new byte[buffer.remaining()];
-        buffer.get(byteArray);
-
-        return new String(byteArray, StandardCharsets.UTF_8);
+        return messageBuilder.toString();
     }
+
 
     private void acceptable(SelectionKey key, Selector selector) throws IOException {
         ServerSocketChannel sockChannel = (ServerSocketChannel) key.channel();

@@ -11,5 +11,7 @@ public class Numbers {
     public static final int SEVEN = 7;
     public static final int EIGHT = 8;
     public static final int NINE = 9;
+    public static final int ONE_MILLION = 1_000_000;
+    public static final int MAX_CHUNK_SIZE = 100_000;
 
 }

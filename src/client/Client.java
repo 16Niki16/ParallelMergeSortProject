@@ -1,5 +1,8 @@
 package client;
 
+import constants.Numbers;
+import transform.ClientTransform;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -10,7 +13,7 @@ import java.util.Scanner;
 public class Client {
     public static final int SERVER_PORT = 7777;
     private static final String SERVER_HOST = "localhost";
-    private static final int BUFFER_SIZE = 131072;
+    private static final int BUFFER_SIZE = Numbers.ONE_MILLION;
     private static final ByteBuffer buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
     private String message;
 
@@ -32,6 +35,8 @@ public class Client {
                 clientInput(socketChannel);
                 String reply = serverOutput(socketChannel);
                 System.out.println(reply);
+                assert reply != null;
+                System.out.println(reply.length());
             }
         } catch (IOException e) {
             throw new RuntimeException("There is a problem with the network communication", e);
@@ -39,18 +44,51 @@ public class Client {
     }
 
     private String serverOutput(SocketChannel sc) throws IOException {
-        buffer.clear();
-        sc.read(buffer);
-        buffer.flip();
+        StringBuilder messageBuilder = new StringBuilder();
+        while (true) {
+            buffer.clear();
+            int bytesRead = sc.read(buffer);
+            if (bytesRead < 0) {
+                System.out.println("Client has closed the connection!");
+                sc.close();
+                return null;
+            }
 
-        byte[] byteArray = new byte[buffer.remaining()];
-        buffer.get(byteArray);
-        return new String(byteArray, StandardCharsets.UTF_8);
+            buffer.flip();
+            byte[] byteArray = new byte[buffer.remaining()];
+            buffer.get(byteArray);
+
+            String chunk = new String(byteArray, StandardCharsets.UTF_8).strip();
+
+            if ("END".equals(chunk)) {
+                break;
+            }else if ("END".equals(chunk.substring(chunk.length() - 3))) {
+                messageBuilder.append(chunk, 0, chunk.length() - 3);
+                break;
+            }
+
+            messageBuilder.append(chunk);
+        }
+        return messageBuilder.toString();
     }
 
     private void clientInput(SocketChannel sc) throws IOException {
+        int chunkSize = 100_000;
+        int totalLength = message.length();
+        int start = 0;
+
+        while (start < totalLength) {
+            int end = Math.min(start + chunkSize, totalLength);
+            String chunk = message.substring(start, end);
+
+            chunkSending(sc, chunk);
+            start = end;
+        }
+        chunkSending(sc, "END");
+    }
+    private void chunkSending(SocketChannel sc, String chunk) throws IOException {
         buffer.clear();
-        buffer.put(message.getBytes());
+        buffer.put(chunk.getBytes());
         buffer.flip();
         sc.write(buffer);
     }
