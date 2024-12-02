@@ -1,7 +1,6 @@
 package client;
 
 import constants.Numbers;
-import transform.ClientTransform;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -11,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class Client {
-    public static final int SERVER_PORT = 7777;
+    public static final int SERVER_PORT = 7776;
     private static final String SERVER_HOST = "localhost";
     private static final int BUFFER_SIZE = Numbers.ONE_MILLION;
     private static final ByteBuffer buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
@@ -96,4 +95,3 @@ public class Client {
         return command.equals("disconnect");
     }
 }
-

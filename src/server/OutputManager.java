@@ -1,7 +1,6 @@
 package server;
 
 import constants.Numbers;
-import sort.parallel.ParallelMergeSort;
 import sort.timer.TimerParallel;
 import sort.timer.TimerSequentially;
 import transform.MessageTransform;

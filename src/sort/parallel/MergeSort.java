@@ -20,6 +20,7 @@ public class MergeSort extends RecursiveAction {
 
     @Override
     protected void compute() {
+        System.out.println(array.length);
         if (right - left <= THRESHOLD) {
             Arrays.sort(array, left, right + Numbers.ONE);
         } else {
