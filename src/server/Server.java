@@ -74,6 +74,7 @@ public class Server {
         int chunkSize = 100_000;
         int totalLength = message.length();
         int start = 0;
+        //System.out.println(message);
         while (start < totalLength) {
             int end = Math.min(start + chunkSize, totalLength);
             String chunk = message.substring(start, end);
@@ -83,6 +84,7 @@ public class Server {
             start = end;
         }
         chunkSending(buffer, sc, "END");
+        //System.out.println("stiga");
     }
 
     private void chunkSending(ByteBuffer buffer, SocketChannel sc, String chunk) throws IOException {
@@ -108,6 +110,7 @@ public class Server {
             buffer.get(byteArray);
 
             String chunk = new String(byteArray, StandardCharsets.UTF_8).strip();
+            System.out.println("chunk: " + chunk);
             if ("END".equals(chunk)) {
                 break;
             } else if ("END".equals(chunk.substring(chunk.length() - 3))) {
