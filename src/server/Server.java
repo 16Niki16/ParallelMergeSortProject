@@ -18,9 +18,7 @@ public class Server implements ServerAPI {
     private static final String SERVER_HOST = "localhost";
     private static final int BUFFER_SIZE = Numbers.ONE_MILLION;
 
-    public Server() {
-
-    }
+    public Server() {}
 
     @Override
     public void serverStart() {
