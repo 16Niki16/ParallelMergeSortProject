@@ -9,7 +9,7 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-public class Client {
+public class Client implements ClientAPI {
     public static final int SERVER_PORT = 7776;
     private static final String SERVER_HOST = "localhost";
     private static final int BUFFER_SIZE = Numbers.ONE_MILLION;
@@ -21,6 +21,7 @@ public class Client {
         this.message = "";
     }
 
+    @Override
     public void serverConnect() {
         try (SocketChannel socketChannel = SocketChannel.open();
              Scanner scanner = new Scanner(System.in)) {
@@ -34,8 +35,6 @@ public class Client {
                 clientInput(socketChannel);
                 String reply = serverOutput(socketChannel);
                 System.out.println(reply);
-                assert reply != null;
-                System.out.println(reply.length());
             }
         } catch (IOException e) {
             throw new RuntimeException("There is a problem with the network communication", e);
@@ -61,7 +60,7 @@ public class Client {
 
             if ("END".equals(chunk)) {
                 break;
-            }else if ("END".equals(chunk.substring(chunk.length() - 3))) {
+            } else if ("END".equals(chunk.substring(chunk.length() - 3))) {
                 messageBuilder.append(chunk, 0, chunk.length() - 3);
                 break;
             }
@@ -72,7 +71,7 @@ public class Client {
     }
 
     private void clientInput(SocketChannel sc) throws IOException {
-        int chunkSize = 100_000;
+        int chunkSize = Numbers.MAX_CHUNK_SIZE;
         int totalLength = message.length();
         int start = 0;
 
@@ -85,12 +84,14 @@ public class Client {
         }
         chunkSending(sc, "END");
     }
+
     private void chunkSending(SocketChannel sc, String chunk) throws IOException {
         buffer.clear();
         buffer.put(chunk.getBytes());
         buffer.flip();
         sc.write(buffer);
     }
+
     private boolean disconnect(String command) {
         return command.equals("disconnect");
     }

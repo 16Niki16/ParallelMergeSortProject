@@ -2,9 +2,6 @@ package sort.timer;
 
 import constants.Numbers;
 import sort.sequent.MergeSortSeq;
-
-import java.util.Arrays;
-
 public class TimerSequentially {
     public static double TimerSeqSorting(int[] arr) {
         int[] temp = new int[arr.length];

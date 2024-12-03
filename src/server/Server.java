@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Set;
 
-public class Server {
+public class Server implements ServerAPI {
     private static final int SERVER_PORT = 7776;
     private static final String SERVER_HOST = "localhost";
     private static final int BUFFER_SIZE = Numbers.ONE_MILLION;
@@ -22,6 +22,7 @@ public class Server {
 
     }
 
+    @Override
     public void serverStart() {
         try (ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) {
 
@@ -71,14 +72,14 @@ public class Server {
     }
 
     private void clientOutput(ByteBuffer buffer, SocketChannel sc, String message) throws IOException {
-        int chunkSize = 100_000;
+        int chunkSize = Numbers.MAX_CHUNK_SIZE;
         int totalLength = message.length();
         int start = 0;
         //System.out.println(message);
         while (start < totalLength) {
             int end = Math.min(start + chunkSize, totalLength);
             String chunk = message.substring(start, end);
-            System.out.println(chunk);
+            //System.out.println(chunk);
             chunkSending(buffer, sc, chunk);
 
             start = end;
