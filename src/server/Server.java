@@ -18,8 +18,6 @@ public class Server implements ServerAPI {
     private static final String SERVER_HOST = "localhost";
     private static final int BUFFER_SIZE = Numbers.ONE_MILLION;
 
-    public Server() {}
-
     @Override
     public void serverStart() {
         try (ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) {
@@ -35,7 +33,7 @@ public class Server implements ServerAPI {
             while (true) {
                 int readyChannels = selector.select();
 
-                if (readyChannels == 0) {
+                if (readyChannels == Numbers.ZERO) {
                     continue;
                 }
 
@@ -72,18 +70,16 @@ public class Server implements ServerAPI {
     private void clientOutput(ByteBuffer buffer, SocketChannel sc, String message) throws IOException {
         int chunkSize = Numbers.MAX_CHUNK_SIZE;
         int totalLength = message.length();
-        int start = 0;
-        //System.out.println(message);
+        int start = Numbers.ZERO;
+
         while (start < totalLength) {
             int end = Math.min(start + chunkSize, totalLength);
             String chunk = message.substring(start, end);
-            //System.out.println(chunk);
             chunkSending(buffer, sc, chunk);
 
             start = end;
         }
         chunkSending(buffer, sc, "END");
-        //System.out.println("stiga");
     }
 
     private void chunkSending(ByteBuffer buffer, SocketChannel sc, String chunk) throws IOException {
@@ -98,7 +94,7 @@ public class Server implements ServerAPI {
         while (true) {
             buffer.clear();
             int bytesRead = sc.read(buffer);
-            if (bytesRead < 0) {
+            if (bytesRead < Numbers.ZERO) {
                 System.out.println("Client has closed the connection!");
                 sc.close();
                 return null;
@@ -112,8 +108,8 @@ public class Server implements ServerAPI {
             System.out.println("chunk: " + chunk);
             if ("END".equals(chunk)) {
                 break;
-            } else if ("END".equals(chunk.substring(chunk.length() - 3))) {
-                messageBuilder.append(chunk, 0, chunk.length() - 3);
+            } else if ("END".equals(chunk.substring(chunk.length() - Numbers.THREE))) {
+                messageBuilder.append(chunk, Numbers.ZERO, chunk.length() - Numbers.THREE);
                 break;
             }
 

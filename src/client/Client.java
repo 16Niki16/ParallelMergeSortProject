@@ -46,7 +46,7 @@ public class Client implements ClientAPI {
         while (true) {
             buffer.clear();
             int bytesRead = sc.read(buffer);
-            if (bytesRead < 0) {
+            if (bytesRead < Numbers.ZERO) {
                 System.out.println("Client has closed the connection!");
                 sc.close();
                 return null;
@@ -60,8 +60,8 @@ public class Client implements ClientAPI {
 
             if ("END".equals(chunk)) {
                 break;
-            } else if ("END".equals(chunk.substring(chunk.length() - 3))) {
-                messageBuilder.append(chunk, 0, chunk.length() - 3);
+            } else if ("END".equals(chunk.substring(chunk.length() - Numbers.THREE))) {
+                messageBuilder.append(chunk, Numbers.ZERO, chunk.length() - Numbers.THREE);
                 break;
             }
 
@@ -73,7 +73,7 @@ public class Client implements ClientAPI {
     private void clientInput(SocketChannel sc) throws IOException {
         int chunkSize = Numbers.MAX_CHUNK_SIZE;
         int totalLength = message.length();
-        int start = 0;
+        int start = Numbers.ZERO;
 
         while (start < totalLength) {
             int end = Math.min(start + chunkSize, totalLength);
