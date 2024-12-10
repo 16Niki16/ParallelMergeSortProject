@@ -106,9 +106,8 @@ public class Server implements ServerAPI {
 
             String chunk = new String(byteArray, StandardCharsets.UTF_8).strip();
             System.out.println("chunk: " + chunk);
-            if ("END".equals(chunk)) {
-                break;
-            } else if ("END".equals(chunk.substring(chunk.length() - Numbers.THREE))) {
+
+            if ("END".equals(chunk.substring(chunk.length() - Numbers.THREE))) {
                 messageBuilder.append(chunk, Numbers.ZERO, chunk.length() - Numbers.THREE);
                 break;
             }
