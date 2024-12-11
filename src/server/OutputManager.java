@@ -7,9 +7,10 @@ import sort.timer.TimerSequentially;
 import transform.MessageTransform;
 
 import java.util.Arrays;
+import java.util.concurrent.ForkJoinPool;
 
 public class OutputManager {
-    public static String outputManager(String line) {
+    public static String outputManager(String line, ForkJoinPool pool) {
         try {
             int[] unsortedArray = MessageTransform.transform(line);
             if (unsortedArray.length == Numbers.ZERO) {
@@ -17,7 +18,7 @@ public class OutputManager {
             }
             StringBuilder buildAnswer = new StringBuilder("Sorted array: ");
             double timeSequential = TimerSequentially.TimerSeqSorting(unsortedArray);
-            double timeParallel = TimerParallel.TimerParallelSorting(unsortedArray);
+            double timeParallel = TimerParallel.TimerParallelSorting(unsortedArray, pool);
             buildAnswer.append(Arrays.toString(unsortedArray)).append('\n');
             buildAnswer.append("Sequentially sorted time: ").append(timeSequential).append('\n');
             buildAnswer.append("Parallel sorted time: ").append(timeParallel).append('\n');

@@ -6,13 +6,13 @@ import sort.Helpers;
 import java.util.Arrays;
 import java.util.concurrent.RecursiveAction;
 
-public class MergeSort extends RecursiveAction {
+public class MergeSortParallel extends RecursiveAction {
     private final int[] array;
     private final int left;
     private final int right;
     private static final int THRESHOLD = 1000;
 
-    public MergeSort(int[] array, int left, int right) {
+    public MergeSortParallel(int[] array, int left, int right) {
         this.array = array;
         this.left = left;
         this.right = right;
@@ -26,8 +26,8 @@ public class MergeSort extends RecursiveAction {
         } else {
             int mid = left + (right - left) / Numbers.TWO;
 
-            MergeSort leftTask = new MergeSort(array, left, mid);
-            MergeSort rightTask = new MergeSort(array, mid + Numbers.ONE, right);
+            MergeSortParallel leftTask = new MergeSortParallel(array, left, mid);
+            MergeSortParallel rightTask = new MergeSortParallel(array, mid + Numbers.ONE, right);
 
             invokeAll(leftTask, rightTask);
 

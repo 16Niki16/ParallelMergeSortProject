@@ -12,6 +12,7 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
 
 public class Server implements ServerAPI {
     private static final int SERVER_PORT = 7776;
@@ -20,7 +21,8 @@ public class Server implements ServerAPI {
 
     @Override
     public void serverStart() {
-        try (ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) {
+        try (ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+             ForkJoinPool pool = ForkJoinPool.commonPool()) {
 
             serverSocketChannel.bind(new InetSocketAddress(SERVER_HOST, SERVER_PORT));
             serverSocketChannel.configureBlocking(false);
@@ -46,7 +48,7 @@ public class Server implements ServerAPI {
                     if (key.isReadable()) {
                         try {
                             SocketChannel sc = (SocketChannel) key.channel();
-                            readable(buffer, sc);
+                            readable(buffer, sc, pool);
                         } catch (IOException e) {
                             continue;
                         }
@@ -61,10 +63,10 @@ public class Server implements ServerAPI {
         }
     }
 
-    private void readable(ByteBuffer buffer, SocketChannel sc) throws IOException {
+    private void readable(ByteBuffer buffer, SocketChannel sc, ForkJoinPool pool) throws IOException {
         String line = clientInput(buffer, sc);
         assert line != null;
-        clientOutput(buffer, sc, OutputManager.outputManager(line));
+        clientOutput(buffer, sc, OutputManager.outputManager(line, pool));
     }
 
     private void clientOutput(ByteBuffer buffer, SocketChannel sc, String message) throws IOException {
