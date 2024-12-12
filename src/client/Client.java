@@ -57,7 +57,7 @@ public class Client implements ClientAPI {
             buffer.get(byteArray);
 
             String chunk = new String(byteArray, StandardCharsets.UTF_8).strip();
-            if (chunk.isEmpty()) {
+            if (chunk.isEmpty() || chunk.equals("END")) {
                 break;
             } else if ("END".equals(chunk.substring(chunk.length() - Numbers.THREE))) {
                 messageBuilder.append(chunk, Numbers.ZERO, chunk.length() - Numbers.THREE);

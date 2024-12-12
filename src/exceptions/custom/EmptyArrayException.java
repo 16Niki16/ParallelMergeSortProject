@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.custom;
 
 public class EmptyArrayException extends Exception{
     public EmptyArrayException(String message){

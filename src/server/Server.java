@@ -51,6 +51,7 @@ public class Server implements ServerAPI {
                             SocketChannel sc = (SocketChannel) key.channel();
                             readable(buffer, sc, pool);
                         } catch (IOException | NullPointerException e) {
+
                             continue;
                         }
                     } else if (key.isAcceptable()) {
@@ -78,7 +79,7 @@ public class Server implements ServerAPI {
         while (start < totalLength) {
             int end = Math.min(start + chunkSize, totalLength);
             String chunk = message.substring(start, end);
-            System.out.println("chunk: " + chunk);
+            //System.out.println("chunk: " + chunk);
             chunkSending(buffer, sc, chunk);
 
             start = end;
@@ -109,7 +110,7 @@ public class Server implements ServerAPI {
             buffer.get(byteArray);
 
             String chunk = new String(byteArray, StandardCharsets.UTF_8).strip();
-            if (chunk.isEmpty()) {
+            if (chunk.isEmpty() || chunk.equals("END")) {
                 break;
             } else if ("END".equals(chunk.substring(chunk.length() - Numbers.THREE))) {
                 messageBuilder.append(chunk, Numbers.ZERO, chunk.length() - Numbers.THREE);
