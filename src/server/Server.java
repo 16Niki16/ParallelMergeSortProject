@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
 
 public class Server implements ServerAPI {
-    private static final int SERVER_PORT = 7776;
+    private static final int SERVER_PORT = 7775;
     private static final String SERVER_HOST = "localhost";
     private static final int BUFFER_SIZE = Numbers.ONE_MILLION;
 
