@@ -12,7 +12,7 @@ public class Numbers {
     public static final int EIGHT = 8;
     public static final int NINE = 9;
     public static final int ONE_MILLION = 1_000_000;
+    public static final double ONE_MILLION_DOUBLE = 1_000_000.0;
     public static final int MAX_CHUNK_SIZE = 100_000;
-    public static final int TWO_HUNDRED_THOUSANDS = 200_000;
 
 }

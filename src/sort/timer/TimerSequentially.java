@@ -9,6 +9,6 @@ public class TimerSequentially {
         long startTime = System.nanoTime();
         MergeSortSeq.mergeSeq(temp, Numbers.ZERO, temp.length - Numbers.ONE);
         long endTime = System.nanoTime();
-        return (endTime - startTime) / 1_000_000.0;
+        return (endTime - startTime) / Numbers.ONE_MILLION_DOUBLE;
     }
 }

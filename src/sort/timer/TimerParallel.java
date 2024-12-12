@@ -10,6 +10,6 @@ public class TimerParallel {
         long startTime = System.nanoTime();
         pool.invoke(new MergeSortParallel(arr, Numbers.ZERO, arr.length - Numbers.ONE));
         long endTime = System.nanoTime();
-        return (endTime - startTime) / 1_000_000.0;
+        return (endTime - startTime) / Numbers.ONE_MILLION_DOUBLE;
     }
 }
