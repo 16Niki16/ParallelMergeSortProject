@@ -77,6 +77,7 @@ public class Server implements ServerAPI {
         while (start < totalLength) {
             int end = Math.min(start + chunkSize, totalLength);
             String chunk = message.substring(start, end);
+            System.out.println("chunk: " + chunk);
             chunkSending(buffer, sc, chunk);
 
             start = end;
@@ -107,9 +108,9 @@ public class Server implements ServerAPI {
             buffer.get(byteArray);
 
             String chunk = new String(byteArray, StandardCharsets.UTF_8).strip();
-            System.out.println("chunk: " + chunk);
-
-            if ("END".equals(chunk.substring(chunk.length() - Numbers.THREE))) {
+            if (chunk.isEmpty()) {
+                break;
+            } else if ("END".equals(chunk.substring(chunk.length() - Numbers.THREE))) {
                 messageBuilder.append(chunk, Numbers.ZERO, chunk.length() - Numbers.THREE);
                 break;
             }
