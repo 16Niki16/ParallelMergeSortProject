@@ -79,7 +79,7 @@ public class Server implements ServerAPI {
         while (start < totalLength) {
             int end = Math.min(start + chunkSize, totalLength);
             String chunk = message.substring(start, end);
-            //System.out.println("chunk: " + chunk);
+            System.out.println("chunk: " + chunk);
             chunkSending(buffer, sc, chunk);
 
             start = end;
