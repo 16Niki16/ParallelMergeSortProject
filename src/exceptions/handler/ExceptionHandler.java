@@ -5,12 +5,14 @@ import streams.ReaderWriterCreator;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class ExceptionHandler {
     private static final String directory = "files\\exceptions.txt";
     public static void exceptionHandler(String message) {
+        String exception = LocalDateTime.now() + " " + message;
         try (BufferedWriter wr = new BufferedWriter(ReaderWriterCreator.getAppend(directory))) {
-            wr.write(message);
+            wr.write(exception);
             wr.newLine();
             wr.flush();
         } catch (IOException e) {
