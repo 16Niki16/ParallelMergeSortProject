@@ -31,7 +31,9 @@ public class Client implements ClientAPI {
                                         Enter one of the commands:
                                          - Array with numbers divided by ','
                                          - Number of threads: <numbers of threads> Array: <Array with numbers divided by ','>
-                                         - Get exceptions""");
+                                         - Get exceptions
+                                         - Disconnect
+                                         """);
                 message = scanner.nextLine();
                 if (disconnect(message)) {
                     break;
@@ -96,6 +98,6 @@ public class Client implements ClientAPI {
     }
 
     private boolean disconnect(String command) {
-        return command.equals("disconnect");
+        return command.equalsIgnoreCase("disconnect");
     }
 }
