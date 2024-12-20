@@ -1,6 +1,3 @@
 2024-12-17T10:11:24.594912800Input string is not in the correct format!
 2024-12-17T10:11:44.487338200Input string is not in the correct format!
-2024-12-17T10:34:37.377493600 Input string is not in the correct format!
-2024-12-17T10:34:45.036892600 Input string is not in the correct format!
-2024-12-17T10:34:57.654556900 The array you want to sort is empty!
-2024-12-17T10:35:01.728184900 The array you want to sort is empty!
+

@@ -42,7 +42,6 @@ public class OutputManager {
                     throw new EmptyArrayException("The array you want to sort is empty!");
                 }
                 timerSequentially = TimerSequentially.TimerSeqSorting(unsortedArray);
-                //System.out.println(Arrays.toString(unsortedArray));
                 timerParallel = TimerParallel.TimerParallelSorting(unsortedArray, pool);
                 buildAnswer.append(Arrays.toString(unsortedArray)).append('\n');
             }

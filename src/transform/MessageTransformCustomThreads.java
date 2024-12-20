@@ -9,7 +9,7 @@ public class MessageTransformCustomThreads {
         String numberOfThreads = getStringBetweenNumberOfThreadsAndArray(line);
         int[] unsortedArr = MessageTransform.transform(lineArr);
         int numberOfThreadsNumb = Integer.parseInt(numberOfThreads);
-        return new Pair(numberOfThreadsNumb, unsortedArr);
+        return new Pair<>(numberOfThreadsNumb, unsortedArr);
     }
 
     public static String getStringAfterArray(String input) {
