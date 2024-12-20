@@ -1,5 +1,6 @@
-package sort.custom.threads;
+package sort.custom;
 
+import sort.custom.threads.SortCustomThreads;
 import sort.custom.timer.TimerCustomThreads;
 import transform.MessageTransform;
 
