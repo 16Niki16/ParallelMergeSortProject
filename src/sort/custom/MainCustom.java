@@ -16,6 +16,5 @@ public class MainCustom {
         SortCustomThreads ss = new SortCustomThreads(unsArr,5);
         ss.sortArray();
         System.out.println(Arrays.toString(unsArr));
-        //ss.printArray();
     }
 }
