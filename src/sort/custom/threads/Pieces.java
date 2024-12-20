@@ -1,5 +1,6 @@
 package sort.custom.threads;
 
+import constants.Numbers;
 import sort.sequent.MergeSortSeq;
 
 import java.util.Arrays;
@@ -23,7 +24,7 @@ public class Pieces implements PiecesAPI{
 
     @Override
     public boolean checkPoison(){
-        return poisonPill == 0;
+        return poisonPill == Numbers.ZERO;
     }
     @Override
     public String getPiece(){

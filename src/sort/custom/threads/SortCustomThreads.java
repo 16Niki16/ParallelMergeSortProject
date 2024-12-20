@@ -21,8 +21,8 @@ public class SortCustomThreads implements SortCustomThreadsAPI{
     }
 
     public void sortArray(){
-        Thread[] consumers = new Thread[numberOfThreads - 1];
-        for(int i = 0; i<numberOfThreads - 1; i++){
+        Thread[] consumers = new Thread[numberOfThreads - Numbers.ONE];
+        for(int i = Numbers.ZERO; i<numberOfThreads - Numbers.ONE; i++){
             consumers[i] = new Thread(new SortThread(queue));
         }
         Thread producer = new Thread(new ProducerThread(queue,arr, numberOfThreads - 1, intervals));

@@ -1,5 +1,7 @@
 package sort.custom.threads;
 
+import constants.Numbers;
+
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
@@ -19,20 +21,20 @@ public class ProducerThread implements Runnable{
     @Override
     public void run() {
         try{
-            int startingPoint = 0;
-            while(arr.length - (startingPoint + MAX_ARRAY_CAPACITY) > 0){
-                Pieces piece = new Pieces(arr, startingPoint, startingPoint + MAX_ARRAY_CAPACITY - 1, 1);
-                intervals.put(startingPoint, startingPoint + MAX_ARRAY_CAPACITY - 1);
+            int startingPoint = Numbers.ZERO;
+            while(arr.length - (startingPoint + MAX_ARRAY_CAPACITY) > Numbers.ZERO){
+                Pieces piece = new Pieces(arr, startingPoint, startingPoint + MAX_ARRAY_CAPACITY - Numbers.ONE, Numbers.ONE);
+                intervals.put(startingPoint, startingPoint + MAX_ARRAY_CAPACITY - Numbers.ONE);
                 queue.put(piece);
                 startingPoint += MAX_ARRAY_CAPACITY;
             }
             if(startingPoint < arr.length){
-                Pieces piece = new Pieces(arr, startingPoint, arr.length - 1, 1);
-                intervals.put(startingPoint, arr.length - 1);
+                Pieces piece = new Pieces(arr, startingPoint, arr.length - Numbers.ONE, Numbers.ONE);
+                intervals.put(startingPoint, arr.length - Numbers.ONE);
                 queue.put(piece);
             }
-            for(int i = 0; i<numberOfConsumers;i++){
-                queue.put(new Pieces(null,0,0,0));
+            for(int i = Numbers.ZERO; i<numberOfConsumers;i++){
+                queue.put(new Pieces(null,Numbers.ZERO,Numbers.ZERO,Numbers.ZERO));
             }
 
         }catch (InterruptedException e){
