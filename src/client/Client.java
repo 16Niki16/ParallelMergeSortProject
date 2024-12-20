@@ -28,6 +28,7 @@ public class Client implements ClientAPI {
             socketChannel.connect(new InetSocketAddress(SERVER_HOST, SERVER_PORT));
             while (true) {
                 System.out.println("""
+                                        
                                         Enter one of the commands:
                                          - Array with numbers divided by ','
                                          - Number of threads: <numbers of threads> Array: <Array with numbers divided by ','>
