@@ -26,6 +26,7 @@ public class OutputManager {
                 }
                 StringBuilder buildAnswer = new StringBuilder("Sorted array: ");
                 double timeSequential = TimerSequentially.TimerSeqSorting(unsortedArray);
+                System.out.println(Arrays.toString(unsortedArray));
                 double timeParallel = TimerParallel.TimerParallelSorting(unsortedArray, pool);
                 buildAnswer.append(Arrays.toString(unsortedArray)).append('\n');
                 buildAnswer.append("Sequentially sorted time: ").append(timeSequential).append('\n');
