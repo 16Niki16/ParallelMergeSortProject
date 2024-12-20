@@ -15,8 +15,7 @@ public class SortCustomThreads {
     private Map<Integer, Integer> intervals;
     public SortCustomThreads(int[] arr, int numberOfThreads) {
         this.queue = new ArrayBlockingQueue<>(numberOfThreads);
-        this.arr = new int[arr.length];
-        System.arraycopy(arr, Numbers.ZERO, this.arr, Numbers.ZERO, arr.length);
+        this.arr = arr;
         this.numberOfThreads = numberOfThreads;
         this.intervals = new TreeMap<>();
     }
@@ -41,5 +40,9 @@ public class SortCustomThreads {
         }
         MergeSortedArrays.Merger(arr,intervals);
 
+    }
+
+    public void printArray() {
+        System.out.println(Arrays.toString(arr));
     }
 }

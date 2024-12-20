@@ -1,6 +1,5 @@
 package sort.custom.threads;
 
-import sort.Helpers;
 import sort.custom.timer.TimerCustomThreads;
 import transform.MessageTransform;
 
@@ -13,8 +12,9 @@ public class MainCustom {
         String arr = scan.nextLine();
         int[] unsArr = MessageTransform.transform(arr);
         System.out.println(TimerCustomThreads.TimerParallelCustom(unsArr,5));
-        /*SortCustomThreads ss = new SortCustomThreads(unsArr,5);
+        SortCustomThreads ss = new SortCustomThreads(unsArr,5);
         ss.sortArray();
-        ss.printArray();*/
+        System.out.println(Arrays.toString(unsArr));
+        //ss.printArray();
     }
 }

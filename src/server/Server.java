@@ -116,7 +116,6 @@ public class Server implements ServerAPI {
                 messageBuilder.append(chunk, Numbers.ZERO, chunk.length() - Numbers.THREE);
                 break;
             }
-
             messageBuilder.append(chunk);
         }
         return messageBuilder.toString();
