@@ -8,7 +8,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public class SortCustomThreads {
+public class SortCustomThreads implements SortCustomThreadsAPI{
     private int[] arr;
     private int numberOfThreads;
     private BlockingQueue<Pieces> queue;
@@ -40,9 +40,5 @@ public class SortCustomThreads {
         }
         MergeSortedArrays.Merger(arr,intervals);
 
-    }
-
-    public void printArray() {
-        System.out.println(Arrays.toString(arr));
     }
 }

@@ -4,7 +4,7 @@ import sort.sequent.MergeSortSeq;
 
 import java.util.Arrays;
 
-public class Pieces {
+public class Pieces implements PiecesAPI{
     private int[] arr;
     private int left;
     private int right;
@@ -16,13 +16,16 @@ public class Pieces {
         this.right = right;
         this.poisonPill = poisonPill;
     }
+    @Override
     public void mergeSort(){
         MergeSortSeq.mergeSeq(arr, left, right);
     }
 
+    @Override
     public boolean checkPoison(){
         return poisonPill == 0;
     }
+    @Override
     public String getPiece(){
         System.out.println("Piece size: " + (right - left));
         return "Piece: " + Arrays.toString(arr);
