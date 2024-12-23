@@ -27,14 +27,12 @@ public class Client implements ClientAPI {
              Scanner scanner = new Scanner(System.in)) {
             socketChannel.connect(new InetSocketAddress(SERVER_HOST, SERVER_PORT));
             while (true) {
-                System.out.println("""
-                                        
-                                        Enter one of the commands:
+                System.out.println("""   
+                                      Enter one of the commands:
                                          - Array with numbers divided by ','
                                          - Number of threads: <numbers of threads> Array: <Array with numbers divided by ','>
                                          - Get exceptions
-                                         - Disconnect
-                                         """);
+                                         - Disconnect""");
                 message = scanner.nextLine();
                 if (disconnect(message)) {
                     break;
@@ -52,12 +50,7 @@ public class Client implements ClientAPI {
         StringBuilder messageBuilder = new StringBuilder();
         while (true) {
             buffer.clear();
-            int bytesRead = sc.read(buffer);
-            if (bytesRead < Numbers.ZERO) {
-                System.out.println("Client has closed the connection!");
-                sc.close();
-                return null;
-            }
+            sc.read(buffer);
 
             buffer.flip();
             byte[] byteArray = new byte[buffer.remaining()];
