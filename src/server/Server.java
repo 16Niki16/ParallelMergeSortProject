@@ -73,12 +73,11 @@ public class Server implements ServerAPI {
     }
 
     private void clientOutput(ByteBuffer buffer, SocketChannel sc, String message) throws IOException {
-        int chunkSize = Numbers.MAX_CHUNK_SIZE;
         int totalLength = message.length();
         int start = Numbers.ZERO;
 
         while (start < totalLength) {
-            int end = Math.min(start + chunkSize, totalLength);
+            int end = Math.min(start + Numbers.MAX_CHUNK_SIZE, totalLength);
             String chunk = message.substring(start, end);
             System.out.println("chunk: " + chunk);
             chunkSending(buffer, sc, chunk);

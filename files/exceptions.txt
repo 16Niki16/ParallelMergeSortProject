@@ -10,15 +10,3 @@
 2024-12-25T20:30:29.738383700 The array you want to sort is empty!
 2024-12-25T20:33:52.897481300 The array you want to sort is empty!
 2024-12-25T20:34:37.116272500 The array you want to sort is empty!
-2024-12-25T20:35:47.836535 The array you want to sort is empty!
-2024-12-25T20:39:19.882218500 The array you want to sort is empty!
-2024-12-25T20:39:19.897308 The array you want to sort is empty!
-2024-12-25T20:39:21.849905300 The array you want to sort is empty!
-2024-12-25T20:39:24.733173400 Input string is not in the correct format!
-2024-12-25T20:39:26.769375300 The array you want to sort is empty!
-2024-12-25T20:39:29.212125 Input string is not in the correct format!
-2024-12-25T20:39:42.087349800 The array you want to sort is empty!
-2024-12-25T20:39:49.572259 The array you want to sort is empty!
-2024-12-25T20:39:49.575767100 The array you want to sort is empty!
-2024-12-25T20:39:57.507127800 The array you want to sort is empty!
-2024-12-25T20:39:58.552014800 The array you want to sort is empty!

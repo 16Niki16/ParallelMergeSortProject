@@ -32,10 +32,10 @@ public class Client implements ClientAPI {
                        - Get exceptions
                        - Disconnect""");
                 String line = scanner.nextLine();
-                message.append(line);
                 if (disconnect(line)) {
                     break;
                 }
+                message.append(line);
                 clientInput(socketChannel);
                 serverOutput(socketChannel);
                 System.out.println(this.message);
@@ -69,12 +69,11 @@ public class Client implements ClientAPI {
     }
 
     private void clientInput(SocketChannel sc) throws IOException {
-        int chunkSize = Numbers.MAX_CHUNK_SIZE;
         int totalLength = message.length();
         int start = Numbers.ZERO;
 
         while (start < totalLength) {
-            int end = Math.min(start + chunkSize, totalLength);
+            int end = Math.min(start + Numbers.MAX_CHUNK_SIZE, totalLength);
             String chunk = message.substring(start, end);
 
             chunkSending(sc, chunk);
