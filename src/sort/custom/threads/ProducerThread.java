@@ -7,10 +7,10 @@ import java.util.concurrent.BlockingQueue;
 
 public class ProducerThread implements Runnable{
     private static final int MAX_ARRAY_CAPACITY = 1000;
-    private BlockingQueue<Pieces> queue;
-    private int[] arr;
-    private int numberOfConsumers;
-    private Map<Integer, Integer> intervals;
+    private final BlockingQueue<Pieces> queue;
+    private final int[] arr;
+    private final int numberOfConsumers;
+    private final Map<Integer, Integer> intervals;
     public ProducerThread(BlockingQueue<Pieces> queue, int[] arr, int numberOfConsumers, Map<Integer, Integer> intervals) {
         this.queue = queue;
         this.arr = arr;

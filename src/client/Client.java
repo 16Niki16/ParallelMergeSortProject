@@ -14,11 +14,9 @@ public class Client implements ClientAPI {
     private static final String SERVER_HOST = "localhost";
     private static final int BUFFER_SIZE = Numbers.ONE_MILLION;
     private static final ByteBuffer buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
-    private String message;
-
-
+    private final StringBuilder message;
     public Client() {
-        this.message = "";
+        this.message = new StringBuilder();
     }
 
     @Override
@@ -28,26 +26,28 @@ public class Client implements ClientAPI {
             socketChannel.connect(new InetSocketAddress(SERVER_HOST, SERVER_PORT));
             while (true) {
                 System.out.println("""   
-                                      Enter one of the commands:
-                                         - Array with numbers divided by ','
-                                         - Number of threads: <numbers of threads> Array: <Array with numbers divided by ','>
-                                         - Get exceptions
-                                         - Disconnect""");
-                message = scanner.nextLine();
-                if (disconnect(message)) {
+                    Enter one of the commands:
+                       - Array with numbers divided by ','
+                       - Number of threads: <numbers of threads> Array: <Array with numbers divided by ','>
+                       - Get exceptions
+                       - Disconnect""");
+                String line = scanner.nextLine();
+                message.append(line);
+                if (disconnect(line)) {
                     break;
                 }
                 clientInput(socketChannel);
-                String reply = serverOutput(socketChannel);
-                System.out.println(reply);
+                serverOutput(socketChannel);
+                System.out.println(this.message);
+                this.message.setLength(Numbers.ZERO);
             }
         } catch (IOException e) {
             throw new RuntimeException("There is a problem with the network communication", e);
         }
     }
 
-    private String serverOutput(SocketChannel sc) throws IOException {
-        StringBuilder messageBuilder = new StringBuilder();
+    private void serverOutput(SocketChannel sc) throws IOException {
+        message.setLength(Numbers.ZERO);
         while (true) {
             buffer.clear();
             sc.read(buffer);
@@ -60,13 +60,12 @@ public class Client implements ClientAPI {
             if (chunk.isEmpty() || chunk.equals("END")) {
                 break;
             } else if ("END".equals(chunk.substring(chunk.length() - Numbers.THREE))) {
-                messageBuilder.append(chunk, Numbers.ZERO, chunk.length() - Numbers.THREE);
+                message.append(chunk, Numbers.ZERO, chunk.length() - Numbers.THREE);
                 break;
             }
 
-            messageBuilder.append(chunk);
+            message.append(chunk);
         }
-        return messageBuilder.toString();
     }
 
     private void clientInput(SocketChannel sc) throws IOException {
