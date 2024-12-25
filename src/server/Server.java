@@ -52,7 +52,6 @@ public class Server implements ServerAPI {
                             SocketChannel sc = (SocketChannel) key.channel();
                             readable(buffer, sc, pool);
                         } catch (IOException | NullPointerException e) {
-
                             continue;
                         }
                     } else if (key.isAcceptable()) {
